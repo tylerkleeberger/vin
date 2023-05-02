@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">VINMaster</string>
+    <string name="title_activity_main">VINMaster</string>
+    <string name="package_name">com.test.vinmaster</string>
+    <string name="custom_url_scheme">com.test.vinmaster</string>
+</resources>

@@ -1,0 +1,7 @@
+{
+  "name": "vinmaster",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
