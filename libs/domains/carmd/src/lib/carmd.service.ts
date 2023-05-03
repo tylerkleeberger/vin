@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import { VINDetails } from './models/vin-details.model';
 
 const CARMD_API_BASE_URL = 'https://api.carmd.com/v3.0';
 const VM_CARMD_PARTNER_TOKEN = '2a9c3c010438423c87d20181f290388e';
@@ -15,19 +16,9 @@ export interface CarMDMessage {
   endpoint: 'decode' | string;
 }
 
-export interface CarMDVINResult {
-  year?: number;
-  make?: string;
-  model?: string;
-  manufacturer?: string;
-  engine?: string;
-  trim?: string;
-  transmission?: string;
-}
-
 export interface CarMDVINResponse {
   message: CarMDMessage;
-  data: CarMDVINResult;
+  data: VINDetails;
 }
 
 export class CarMDError extends Error {
@@ -40,7 +31,7 @@ export class CarMDError extends Error {
 export class CarMDService {
   constructor(private readonly http: HttpClient) {}
 
-  decodeVIN(vin: string): Observable<CarMDVINResult> {
+  decodeVIN(vin: string): Observable<VINDetails> {
     return this.http
       .get<CarMDVINResponse>(`${CARMD_API_BASE_URL}/decode`, {
         headers: {
