@@ -7,9 +7,9 @@ export interface VINDetailsState {
   vins: string[];
 }
 
-const initialState: VINDetailsState = {
+export const initialVINDetailsState: VINDetailsState = {
   vinDetailsDict: {},
   vins: [],
 };
 
-export const vinDetailsReducer = createReducer(initialState);
+export const vinDetailsReducer = createReducer(initialVINDetailsState);
