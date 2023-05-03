@@ -1,4 +1,5 @@
 export interface VINDetails {
+  vin: string;
   year?: number;
   make?: string;
   model?: string;
@@ -6,4 +7,8 @@ export interface VINDetails {
   engine?: string;
   trim?: string;
   transmission?: string;
+}
+
+export interface StampedVINDetails extends VINDetails {
+  timestamp?: number;
 }

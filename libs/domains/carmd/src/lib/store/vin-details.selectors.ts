@@ -8,3 +8,7 @@ export const vinDetailsDict = createSelector(vinDetailsState, get('vinDetailsDic
 export const vins = createSelector(vinDetailsState, get('vins'));
 
 export const vinDetails = createSelector(vins, vinDetailsDict, transformDictToArray);
+
+export const recentVinDetails = createSelector(vinDetails, (vinDetails) =>
+  vinDetails.sort((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0)).slice(10),
+);

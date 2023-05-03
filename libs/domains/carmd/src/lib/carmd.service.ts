@@ -42,13 +42,9 @@ export class CarMDService {
       })
       .pipe(
         switchMap((response) =>
-          response.message.message === 'ok'
-            ? of(response.data)
-            : throwError(() => response)
+          response.message.message === 'ok' ? of({ ...response.data, vin }) : throwError(() => response),
         ),
-        catchError((err) =>
-          throwError(() => new CarMDError('Error retrieving VIN details.', err))
-        )
+        catchError((err) => throwError(() => new CarMDError('Error retrieving VIN details.', err))),
       );
   }
 }
