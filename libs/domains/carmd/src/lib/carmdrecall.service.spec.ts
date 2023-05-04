@@ -1,10 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import {CarMDRecallService} from './carmdrecall.service';
+import {CarMDError, CarMDRecallService} from './carmdrecall.service';
 import {HttpClientModule} from '@angular/common/http';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {VinRecallData} from '~vm/domains/carmd';
+import {throwError} from 'rxjs';
 
-// Ini
-describe('CarMDRecallService', () => {
+
+/*describe('CarMDRecallService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
@@ -55,5 +58,87 @@ describe('CarMDRecallService', () => {
         },
       });
     });
+  });
+});*/
+
+const CARMD_API_BASE_URL = 'https://api.carmd.com/v3.0';
+const VM_CARMD_PARTNER_TOKEN = '2a9c3c010438423c87d20181f290388e';
+const VM_CARMD_AUTH_KEY = 'NjBhZjExM2EtYjVkYS00YmI1LWI4ZTktYWYxZGU2MDM5NzFl';
+
+describe('CarMDRecallService', () => {
+  let service: CarMDRecallService;
+  let httpMock: HttpTestingController;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [CarMDRecallService]
+    });
+
+    service = TestBed.inject(CarMDRecallService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should return recall data for a valid VIN', () => {
+    const vin = '1GNALDEK9FZ108495';
+    const recallData: VinRecallData = {
+      vin: vin,
+          desc: "GENERAL MOTORS, LLC (GM) IS RECALLING CERTAIN 2014-2015 CHEVROLET EQUINOX AND GMC TERRAIN VEHICLES. THE BALL JOINTS IN THE WINDSHIELD WIPER MODULE MAY CORRODE, CAUSING ONE OR BOTH WINDSHIELD WIPERS TO FAIL.",
+          corrective_action: "DEALERS WILL INSPECT THE WIPER MODULE, AND REPAIR OR REPLACE IT AS NECESSARY, FREE OF CHARGE. INTERIM OWNER NOTIFICATION LETTERS INFORMING OWNERS OF THE SAFETY RISK WERE MAILED ON APRIL 21, 2022. OWNER NOTIFICATION LETTERS WERE MAILED ON OCTOBER 25, 2022. OWNERS MAY CONTACT CHEVROLET CUSTOMER SERVICE AT 1-800-222-1020 AND GMC CUSTOMER SERVICE AT 1-800-462-8782. GM'S NUMBER FOR THIS RECALL IS N212352530.",
+          consequence: "INOPERATIVE WINDSHIELD WIPERS CAN REDUCE VISIBILITY IN CERTAIN DRIVING CONDITIONS, INCREASING THE RISK OF A CRASH.",
+          recall_date: "1/17/2022",
+          campaign_number: "22V165000",
+          recall_number: "25997"
+    };
+
+    service.recallVIN(vin).subscribe((data) => {
+      expect(data).toEqual(recallData);
+    });
+
+    const req = httpMock.expectOne(`${CARMD_API_BASE_URL}/recall?vin=${vin}`);
+
+    expect(req.request.method).toBe('GET');
+    expect(req.request.headers.get('Authorization')).toBe(`Basic ${VM_CARMD_AUTH_KEY}`);
+    expect(req.request.headers.get('Partner-Token')).toBe(VM_CARMD_PARTNER_TOKEN);
+
+    const responseData = {
+      message: {
+        code: 0,
+        counter: 1,
+        version: 'v3',
+        message: 'ok',
+        credentials: 'valid',
+        endpoint: 'recall'
+      },
+      data: {
+        recalls: []
+      }
+    };
+
+    req.flush(responseData);
+  });
+
+  it('should throw an error for an invalid VIN', () => {
+    const vin = 'invalidVIN';
+
+    spyOn(service, 'recallVIN').and.returnValue(
+      throwError(new CarMDError('Error retrieving recall details.', null))
+    );
+
+    service.recallVIN(vin).subscribe(
+      () => {},
+      (error) => {
+        expect(error instanceof CarMDError).toBe(true);
+        expect(error.message).toBe('Error retrieving recall details.');
+      }
+    );
   });
 });
