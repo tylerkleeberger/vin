@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {CarMDVINResponse} from './carmd.service';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, Observable, of, switchMap, throwError} from 'rxjs';
+import {VinRecallData} from './models/vin-recall-data.model';
 
 
 const CARMD_API_BASE_URL = 'https://api.carmd.com/v3.0';
@@ -18,19 +19,14 @@ export interface recallMessage {
   endpoint: 'recall' | string;
 }
 
-export interface recallData {
-  vin: string;
-  desc?: string;
-  corrective_action?: string;
-  consequence?: string;
-  recall_date?: string;
-  campaign_number?: string;
-  recall_number?: string;
-}
+// Removed 'recallData' interface from here
+// Created 'VinRecallData' interface in models/vin-recall-data.model.ts for import
+//  --  allows to be used in actions entity payload
+// ** Updated 'recallData' to 'VinRecallData' import in method
 
 export interface recallResponse {
   message: recallMessage;
-  data: recallData;
+  data: VinRecallData;
 }
 
 export class CarMDError extends Error {
@@ -52,7 +48,7 @@ export class CarMDRecallService {
   // 1) Method name -- get recall information by VIN#
   // 2) Method parameters -- vin: string
   // 3) Method return type -- Observable<recallData>
-  recallVIN(vin: string): Observable<recallData> {
+  recallVIN(vin: string): Observable<VinRecallData> {
     // 4) Method body -- use the HttpClient to make a GET request to the CarMD API recall endpoint
     return this.http
       // response type is recallResponse
