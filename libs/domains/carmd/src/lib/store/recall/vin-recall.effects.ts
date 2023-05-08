@@ -10,20 +10,27 @@ export class VinRecallEffects {
   // Construct the effects class with the actions and the recall service
   constructor(
     private readonly actions$: Actions,
-    private readonly recallService: CarMDService
+    private readonly carmd: CarMDService
   ) {}
 
-
+// Operating off of streams (usually of actions)
+  //  -- whenever checkVinRecall is dispatched --
+  //  -- ofType filter (steam occuring over time) -- of checkVinRecalled action
+  //  -- get = capture value (vin) from action
+  //  -- creating a function that when the action occurs -> moves to switchMap (callback function)
+  //  -- get new stream (with cold observable) -- switchMap subscribes = makes call to server -- checks error or not
+  //  -- not an error = get data -->  effects job is to take action and turns into other actions
   recallVin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(checkVinRecalled),
       switchMap(({ vin }) =>
-        this.recallService.recallVIN(vin).pipe(
-          map((recallData) => vinRecalled({ entity: recallData })),
+        this.carmd.checkRecall(vin).pipe(
+          map((entity) => vinRecalled({ entity })),
           catchError((error) => of(vinRecallCheckFailure({ error }))),
         ),
       ),
     ),
+    { dispatch: false }
   );
 
 

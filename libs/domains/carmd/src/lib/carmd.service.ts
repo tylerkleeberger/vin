@@ -61,7 +61,7 @@ export class CarMDService {
   // 1) Method name -- get recall information by VIN#
   // 2) Method parameters -- vin: string
   // 3) Method return type -- Observable<recallData>
-  recallVIN(vin: string): Observable<VinRecallData> {
+  checkRecall(vin: string): Observable<VinRecallData> {
     // 4) Method body -- use the HttpClient to make a GET request to the CarMD API recall endpoint
     return this.http
       // response type is recallResponse

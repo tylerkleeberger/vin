@@ -94,7 +94,7 @@ describe('CarMDService', () => {
         },
       }));
       // ACT
-      const expected = service.recallVIN(vin);
+      const expected = service.checkRecall(vin);
       // ASSERT
       expect(expected).toBeObservable(cold('a|', {
         a: {
@@ -139,7 +139,7 @@ describe('CarMDService', () => {
 
       // ACT
 
-      const expected = service.recallVIN('bad');
+      const expected = service.checkRecall('bad');
 
       // ASSERT
       expect(expected).toBeObservable(cold('#', undefined, new CarMDError('Invalid subscription/credits', recallFail)));

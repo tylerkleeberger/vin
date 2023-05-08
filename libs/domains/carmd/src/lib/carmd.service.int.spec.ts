@@ -75,7 +75,7 @@ describe('CarMDService', () => {
 
       // ACT
       // -- fake .get() call --
-      service.recallVIN('1GNALDEK9FZ108495').subscribe({
+      service.checkRecall('1GNALDEK9FZ108495').subscribe({
 
         // ASSERT
         next: (result) => {
@@ -112,7 +112,7 @@ describe('CarMDService', () => {
       const service = TestBed.inject(CarMDService);
 
       // ACT
-      service.recallVIN('bad').subscribe({
+      service.checkRecall('bad').subscribe({
         next: () => {
           done.fail('Expected recall error response');
         },
