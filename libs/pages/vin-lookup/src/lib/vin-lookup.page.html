@@ -1,0 +1,54 @@
+<ion-content>
+
+<!--  Card Title -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lookup Vehicle Information</ion-card-title>
+      <ion-card-subtitle>Enter VIN Number</ion-card-subtitle>
+    </ion-card-header>
+
+<!--    Search Box-->
+    <ion-card-content>
+      <ion-item>
+        <ion-input #vin label="VIN Number" placeholder="Enter VIN Number"></ion-input>
+        <ion-button
+        (click)="lookupVin(vin.value)">
+          Lookup Vin
+        </ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+<!--  Display Information-->
+  <ion-card
+  *ngFor="let info of details$ | push">
+    <ion-card-header>
+      <ion-card-subtitle>
+        Vin: {{info.vin}}
+      </ion-card-subtitle>
+      <ion-card-title>
+        {{info.year}} {{info.model}}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>{{info.manufacturer}}</ion-item>
+      <ion-item>{{info.engine}}</ion-item>
+      <ion-item>{{info.transmission}}</ion-item>
+      <ion-item>{{info.trim}}</ion-item>
+    </ion-card-content>
+  </ion-card>
+
+<!--  Display Recent Searches-->
+  <h2>Recent Searches</h2>
+  <ion-card
+  *ngFor="let item of recentSearches$ | push">
+    <ion-card-header>
+      <ion-card-subtitle>Vin: {{item.vin}}</ion-card-subtitle>
+      <ion-card-title>
+        {{item.year}} {{item.model}}
+      </ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+</ion-content>
