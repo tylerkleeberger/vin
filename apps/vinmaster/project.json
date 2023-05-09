@@ -2,7 +2,7 @@
   "name": "vinmaster",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "vin-lookup",
+  "prefix": "vm",
   "sourceRoot": "apps/vinmaster/src",
   "tags": [],
   "targets": {

@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "~vm/domains/carmd": ["libs/domains/carmd/src/index.ts"],
+      "~vm/pages/check-recall": ["libs/pages/check-recall/src/index.ts"],
       "~vm/utils/func": ["libs/utils/func/src/index.ts"],
       "~vm/utils/ngrx": ["libs/utils/ngrx/src/index.ts"]
     }
