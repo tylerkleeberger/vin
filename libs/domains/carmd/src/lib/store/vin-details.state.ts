@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
-import { vinDecoded } from '~vm/domains/carmd';
 import { EntityDictionary } from '~vm/utils/func';
-import {applyReductions, mergeEntity} from '~vm/utils/ngrx';
+import { applyReductions, mergeEntity } from '~vm/utils/ngrx';
 import { StampedVINDetails, VINDetails } from '../models/vin-details.model';
+import { vinDecoded } from './vin-decoder.actions';
 
 export interface VINDetailsState {
   vinDetailsDict: EntityDictionary<StampedVINDetails>;
@@ -14,9 +14,10 @@ export const initialVINDetailsState: VINDetailsState = {
   vins: [],
 };
 
-
-
-export const trackTimestamp = (state: VINDetailsState, { entity }: { entity: VINDetails }): VINDetailsState => ({
+export const trackTimestamp = (
+  state: VINDetailsState,
+  { entity }: { entity: VINDetails },
+): VINDetailsState => ({
   ...state,
   vinDetailsDict: {
     ...state.vinDetailsDict,
@@ -29,5 +30,11 @@ export const trackTimestamp = (state: VINDetailsState, { entity }: { entity: VIN
 
 export const vinDetailsReducer = createReducer(
   initialVINDetailsState,
-  on(vinDecoded, applyReductions(mergeEntity('vin', 'vins', 'vinDetailsDict'), trackTimestamp)),
+  on(
+    vinDecoded,
+    applyReductions(
+      mergeEntity('vin', 'vins', 'vinDetailsDict'),
+      trackTimestamp,
+    ),
+  ),
 );
