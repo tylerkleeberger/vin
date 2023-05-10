@@ -7,3 +7,7 @@ export interface VinRecallData {
   campaign_number?: string;
   recall_number?: string;
 }
+
+export interface StampedVinRecallData extends VinRecallData {
+  timestamp?: number;
+}
