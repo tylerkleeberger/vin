@@ -20,8 +20,7 @@
   </ion-card>
 
   <!--  Display Information for Recalls -->
-    <ion-card
-    *ngFor="let info of recalls$ | push">
+    <ion-card *ngFor="let info of recalls$ | push">
       <ion-card-header>
         <ion-card-subtitle>Vin: {{info.vin}}</ion-card-subtitle>
         <ion-card-title>
