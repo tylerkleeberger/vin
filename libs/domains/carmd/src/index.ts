@@ -6,4 +6,4 @@ export { vinDetails, recentVinDetails } from './lib/store/vin-details.selectors'
 // VIN Recall Exports
 export { VinRecallData } from './lib/models/vin-recall-data.model';
 export { checkVinRecalled, vinRecalled } from './lib/store/recall/vin-recall.actions';
-export { vinRecall, recentVinRecalls } from './lib/store/recall/vin-recall.selectors';
+export { vinRecalls } from './lib/store/recall/vin-recall.selectors';

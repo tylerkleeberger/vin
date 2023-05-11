@@ -1,2 +1,6 @@
 export { applyReductions } from './lib/apply.reductions';
-export { mergeEntity } from './lib/entity.reductions';
+export {
+  mergeEntity,
+  mergeEntities,
+  setEntities,
+} from './lib/entity.reductions';

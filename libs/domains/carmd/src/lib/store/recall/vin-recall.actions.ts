@@ -15,7 +15,7 @@ export const checkVinRecalled = createAction(
 // Recall Success action is dispatched when the recall data is successfully retrieved
 //  -- the entity is the recall data
 export const vinRecalled = createAction(
-  '[DOMAIN: CarMD] (Vin) Recalled', props<{ entity: VinRecallData }>());
+  '[DOMAIN: CarMD] (Vin) Recalled', props<{ entities: VinRecallData[] }>());
 
 
 // Set the action type for the recall failure action

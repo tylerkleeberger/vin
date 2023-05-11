@@ -25,11 +25,10 @@ export class VinRecallEffects {
         ofType(checkVinRecalled),
         switchMap(({ vin }) =>
           this.carmd.checkRecall(vin).pipe(
-            map(entity => vinRecalled({ entity })),
+            map(entities => vinRecalled({ entities })),
             catchError(error => of(vinRecallCheckFailure({ error }))),
           ),
         ),
       ),
-    { dispatch: false },
   );
 }
